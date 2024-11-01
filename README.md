@@ -1,1 +1,0 @@
-# NEXT.js-Auth
