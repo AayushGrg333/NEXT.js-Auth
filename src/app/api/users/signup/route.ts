@@ -6,14 +6,18 @@ import {sendEmail} from '@/helpers/mailer'
 
 connectDB();
 
+export async function GET() {
+    return NextResponse.json({
+        message:"welcome"
+    })
+}
 
 export async function POST(request : NextRequest) {
     try{
         const reqBody = await request.json();
         const { username, email, password } = reqBody;
-        //validation
-        console.log(reqBody);
 
+        //validation
         const user = await User.findOne({email});
         if (user){
             return NextResponse.json({error:"User already exists go to login",
@@ -30,10 +34,8 @@ export async function POST(request : NextRequest) {
                 password:hashedPassword,
             });
 
-            console.log(savedUser);
 
             //send verification mail
-
             await sendEmail({email, emailType: "VERIFY",userId:savedUser._id})
 
             return NextResponse.json({

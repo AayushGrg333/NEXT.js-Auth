@@ -45,8 +45,9 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
                     : "Reset Your Password"
             } or copy and and paste the link below in your browser<br>${
                 process.env.DOMAIN
-            }/verfyemail?tokan=${hashedToken}</p>`,
+            }/verifyemail?token=${hashedToken}</p>`,
         };
+
 
         const mailResponse = await transporter.sendMail(mailOptions);
         return mailResponse;
