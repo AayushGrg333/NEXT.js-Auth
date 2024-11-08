@@ -7,11 +7,13 @@ import jwt from "jsonwebtoken"
 
 connectDB();
 
+
+
 export async function POST(request : NextRequest){
     try {
         const reqBody = await request.json();
         const {email, password}  = reqBody;
-
+        
         const user = await User.findOne({email});
 
         if(!user){
@@ -32,10 +34,9 @@ export async function POST(request : NextRequest){
 
         const secretKey= process.env.JWT_SECRET_KEY
         const cookieToken = jwt.sign(payload,secretKey!,{ expiresIn: '1d' })
-
         const response = NextResponse.json({
             message:"logged in Success",
-            success:true
+            success:true,
         });
 
         response.cookies.set("token", cookieToken,{

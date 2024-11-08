@@ -1,17 +1,20 @@
 import {connectDB} from '@/dbConfig/dbConfig';
 import User from '@/models/userModel'
-import { verify } from 'crypto';
 import { NextRequest,NextResponse } from 'next/server'
 
 connectDB();
+
+
 
 export async function POST(request:NextRequest) {
     try {
         const reqBody = await request.json()
         const { token } = reqBody;
-        console.log(token);
 
-        const user = await User.findOne({verifyToken: token, verifyTokenExpiry:{$gt: Date.now()}})
+        const user = await User.findOne({
+            verifyToken: token,
+            verifyTokenExpiry: { $gt: new Date() }
+        });
 
         if(!user){
             return NextResponse.json({error:"Invalid Token Details"},{status:400})
@@ -24,7 +27,8 @@ export async function POST(request:NextRequest) {
         await user.save()//should be await becaise we are using db
 
         return NextResponse.json({
-            message:"Email Verified successfully"
+            message:"Email Verified successfully",
+            user
         },{status: 500})
 
     } catch (error:any) {
