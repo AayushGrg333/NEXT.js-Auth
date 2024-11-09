@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const SignupPage: React.FC = function () {
     const router = useRouter();
     const [user, setUser] = useState({
+        username: "",
         email: "",
         password: "",
-        username: "",
     });
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -45,11 +46,31 @@ const SignupPage: React.FC = function () {
     }, [user]);
 
     return (
-
         <div className="flex flex-col min-h-screen w-100% justify-center space-y-2 items-center py-2">
-        <h1>{loading}</h1>
-            <label className="input input-bordered flex items-center gap-2">
+            <h1>{loading ? "processing" : "Signup"}</h1>
 
+            <label className="input input-bordered flex items-center gap-2">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    className="h-4 w-4 opacity-70"
+                >
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+                </svg>
+
+                <input
+                    type="text"
+                    className="grow text-black rounded-sm placeholder:text-black"
+                    placeholder="Username"
+                    value={user.username}
+                    onChange={(e) =>
+                        setUser({ ...user, username: e.target.value })
+                    }
+                />
+            </label>
+
+            <label className="input input-bordered flex items-center gap-2">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 16 16"
@@ -60,23 +81,18 @@ const SignupPage: React.FC = function () {
                     <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
                 </svg>
 
-                <input type="text" className="grow  text-black rounded-sm placeholder:text-black"  placeholder="Email" />
+                <input
+                    type="text"
+                    className="grow  text-black rounded-sm placeholder:text-black"
+                    placeholder="Email"
+                    value={user.email}
+                    onChange={(event) =>
+                        setUser({ ...user, email: event.target.value })
+                    }
+                />
             </label>
+
             <label className="input input-bordered flex items-center gap-2">
-
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    className="h-4 w-4 opacity-70"
-                >
-                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
-                </svg>
-
-                <input type="text" className="grow text-black rounded-sm placeholder:text-black" placeholder="Username" />
-            </label>
-            <label className="input input-bordered flex items-center gap-2">
-
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 16 16"
@@ -90,10 +106,26 @@ const SignupPage: React.FC = function () {
                     />
                 </svg>
 
-                <input type="password" className=" text-black  rounded-sm" value="" />
+                <input
+                    type="password"
+                    className="grow  text-black rounded-sm placeholder:text-black"
+                    placeholder="password"
+                    value={user.password}
+                    onChange={(event) =>
+                        setUser({ ...user, password: event.target.value })
+                    }
+                />
             </label>
-        </div>
 
+            <button onClick={onSignup} disabled={loading || buttonDisabled} className="btn btn-active rounded-sm bg-slate-900  px-5 hover:bg-slate-500">
+                {buttonDisabled ? "No signup" : loading ? "processing" : "signup"}
+            </button>
+
+            <div className="flex flex-col items-center text-[10px]">
+                <p>Already have an account?</p>
+                <Link className="text-blue-500 hover:text-blue-400" href="/login">Login page</Link>
+            </div>
+        </div>
     );
 };
 
