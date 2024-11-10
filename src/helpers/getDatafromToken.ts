@@ -11,11 +11,8 @@ export const getDataFromToken = (request: NextRequest) => {
     try {
         const secretKey = process.env.JWT_SECRET_KEY;
 
-        const payload: any = jwt.verify(cookieToken, secretKey!);
-
-        console.log("Decoded JWT payload:", payload);
-
-        return payload.id;
+        const payload:any = jwt.verify(cookieToken, secretKey!);
+        return payload.userId;
     } catch (error: any) {
         // Log error details
         console.error("JWT verification failed:", error.message);

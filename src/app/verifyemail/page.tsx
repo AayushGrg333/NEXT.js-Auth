@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter,useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 
@@ -11,11 +11,13 @@ const VerifyEmailPage: React.FC = function () {
     const [error, setError] = useState(false);
 
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     const verifyUserEmail = async () => {
         try {
             await axios.post("api/users/verifyemail", { token });
             setverified(true);
+            setError(false)
         } catch (error: any) {
             setError(true);
             console.log("error.response.data");
@@ -23,8 +25,11 @@ const VerifyEmailPage: React.FC = function () {
     };
 
     useEffect(() => {
-        const { query } = router;
-        const urltoken = query.token;
+        setError(false)
+        const urlToken = searchParams.get("token");
+        if(urlToken){
+            setToken(urlToken)
+        }
     }, []);
 
     useEffect(() => {
@@ -41,16 +46,15 @@ const VerifyEmailPage: React.FC = function () {
             </h2>
             {verified && (
                 <div>
-                    <h2>verified</h2>
-                    <Link href='login'>login</Link>
+                    <h2>Verified</h2>
+                    <Link href="/login">Login</Link>
                 </div>
             )}
-            {verified && (
+            {error && (
                 <div>
-                    <h2>error</h2>
+                    <h2>Error verifying email</h2>
                 </div>
             )}
-
 
         </div>
     );
