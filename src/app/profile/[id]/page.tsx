@@ -12,3 +12,5 @@ const nestedProfilePage = ({params}:any) => {
 }
 
 export default nestedProfilePage;
+
+
