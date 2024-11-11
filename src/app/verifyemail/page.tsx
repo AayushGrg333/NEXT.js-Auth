@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 import Link from "next/link";
-import { useRouter,useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 
@@ -10,7 +10,6 @@ const VerifyEmailPage: React.FC = function () {
     const [verified, setverified] = useState(false);
     const [error, setError] = useState(false);
 
-    const router = useRouter();
     const searchParams = useSearchParams();
 
     const verifyUserEmail = async () => {
