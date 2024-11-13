@@ -13,7 +13,7 @@ const SignupPage: React.FC = function () {
         email: "",
         password: "",
     });
-    const [buttonDisabled, setButtonDisabled] = useState(false);
+    const [buttonDisabled, setButtonDisabled] = useState(true);
     const [loading, setLoading] = useState(false);
 
     const onSignup = async () => {
